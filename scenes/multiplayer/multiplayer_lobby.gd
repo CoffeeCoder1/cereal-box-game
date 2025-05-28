@@ -7,12 +7,16 @@ class_name MultiplayerLobby extends Node
 ## The maximum number of clients that can connect to the server.
 @export var max_connections: int = 20
 
+var _peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+
 ## Emitted when a connection to the server is successfully made.
 signal connected_to_server
 ## Emitted when disconnected from the server.
 signal server_disconnected
 ## Emitted when the connection failed.
 signal connection_failed
+
+@onready var players: Node = $"../Players"
 
 
 func _ready():
@@ -25,20 +29,26 @@ func _ready():
 func join_game(address: String = ""):
 	if address.is_empty():
 		address = default_server_ip
-	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(address, port)
+	var error = _peer.create_client(address, port)
 	if error:
 		return error
-	multiplayer.multiplayer_peer = peer
+	multiplayer.multiplayer_peer = _peer
 
 
 ## Create a server.
 func create_game():
-	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(port, max_connections)
+	var error = _peer.create_server(port, max_connections)
 	if error:
 		return error
-	multiplayer.multiplayer_peer = peer
+	
+	# Set up signals
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	
+	multiplayer.multiplayer_peer = _peer
+	
+	# Create a player for ourselves
+	add_player(multiplayer.get_unique_id())
 
 
 func leave_game():
@@ -57,3 +67,47 @@ func _on_connected_fail():
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	server_disconnected.emit()
+	
+func _on_peer_connected(id: int) -> void:
+	if multiplayer.is_server():
+		add_player(id)
+		add_player.rpc(id)
+		
+		var host_id: int = multiplayer.get_unique_id()
+		
+		var peer_list := multiplayer.get_peers()
+		peer_list.append(host_id)
+		
+		for existing in peer_list:
+			if existing != id:
+				add_player.rpc_id(id, existing)
+
+
+func _on_peer_disconnected(id: int) -> void:
+	if multiplayer.is_server():
+		remove_player(id)
+		remove_player.rpc(id)
+
+
+## Creates a player for the given ID.
+@rpc("any_peer")
+func add_player(id: int) -> void:
+	var player = Player.new()
+	player.name = "Player" + str(id)
+	player.set_multiplayer_authority(id)
+	players.add_child(player)
+
+
+@rpc("any_peer")
+func remove_player(id: int) -> void:
+	var player := players.get_node_or_null("Player" + str(id))
+	
+	if is_instance_valid(player):
+		player.queue_free()
+
+
+func get_players() -> Array[Player]:
+	var player_array: Array[Player]
+	for player in players.get_children():
+		player_array.append(player as Player)
+	return player_array
