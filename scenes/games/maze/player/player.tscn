@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://oqgdqqrsqm23"]
+
+[ext_resource type="Texture2D" uid="uid://bk8k1l6yw7pyr" path="res://assets/agptraiwdf6ikczlwp1z.jpg" id="1_6x1sj"]
+[ext_resource type="Script" uid="uid://c1ptansiagbgl" path="res://scenes/games/maze/player/player.gd" id="1_rttvw"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rttvw"]
+friction = 0.65
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mitr1"]
+radius = 15.0
+
+[node name="Player" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_rttvw")
+script = ExtResource("1_rttvw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mitr1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.125, 0.1)
+texture = ExtResource("1_6x1sj")
+
+[node name="JumpCooldownTimer" type="Timer" parent="."]
+one_shot = true

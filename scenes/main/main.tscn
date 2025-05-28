@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://xqy0we8wikky"]
+
+[ext_resource type="Script" uid="uid://bxsif6vw5j0ph" path="res://scenes/main/main.gd" id="1_iuonh"]
+[ext_resource type="Script" uid="uid://d4aosn22lkjp4" path="res://scenes/multiplayer/multiplayer_lobby.gd" id="2_iuonh"]
+[ext_resource type="PackedScene" uid="uid://drcry2o67hgrq" path="res://scenes/menu/menu.tscn" id="3_k2fmo"]
+[ext_resource type="Script" uid="uid://bq1mcf2rug0oy" path="res://scenes/main/game.gd" id="4_l3cfh"]
+[ext_resource type="Script" uid="uid://c2xlbvngvsbaq" path="res://scenes/multiplayer/player_manager.gd" id="5_6q06x"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_iuonh")
+
+[node name="MultiplayerLobby" type="Node" parent="."]
+script = ExtResource("2_iuonh")
+metadata/_custom_type_script = "uid://d4aosn22lkjp4"
+
+[node name="Menu" parent="." instance=ExtResource("3_k2fmo")]
+
+[node name="Game" type="Node" parent="."]
+script = ExtResource("4_l3cfh")
+
+[node name="PlayerManager" type="Node" parent="."]
+script = ExtResource("5_6q06x")
+
+[connection signal="connected_to_server" from="MultiplayerLobby" to="." method="_on_multiplayer_lobby_connected_to_server"]
+[connection signal="server_disconnected" from="MultiplayerLobby" to="." method="_on_multiplayer_lobby_server_disconnected"]
+[connection signal="create_server" from="Menu" to="." method="_on_menu_create_server"]
+[connection signal="join_server" from="Menu" to="." method="_on_menu_join_server"]

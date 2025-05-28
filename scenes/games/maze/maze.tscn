@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=4 uid="uid://dwl8etdrwt7ck"]
+
+[ext_resource type="Script" uid="uid://dq1ergyminbf" path="res://scenes/games/maze/3.gd" id="1_anvtl"]
+[ext_resource type="TileSet" uid="uid://d0t7i2xgj4x2n" path="res://assets/maze/maze.tres" id="1_mitr1"]
+[ext_resource type="PackedScene" uid="uid://oqgdqqrsqm23" path="res://scenes/games/maze/player/player.tscn" id="2_bhlxq"]
+
+[node name="Maze" type="Node2D"]
+script = ExtResource("1_anvtl")
+
+[node name="Pivot" type="Node2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Pivot"]
+scale = Vector2(3, 3)
+tile_map_data = PackedByteArray("AAAAAAEAAAAAAAIAAFABAAAAAAAAAAEAAAD+//7/AAABAAAAAFD+////AAAAAAIAAAD+/wAAAAAAAAIAAAD+/wEAAAABAAAAAAD///7/AAAAAAIAAFD//wEAAAAAAAIAAFAAAP7/AAAAAAIAAFABAP7/AAABAAAAADABAP//AAAAAAIAAAABAAEAAAABAAAAAGD//wAAAAABAAEAADAAAAAAAAAAAAIAAFA=")
+tile_set = ExtResource("1_mitr1")
+
+[node name="Player" parent="." instance=ExtResource("2_bhlxq")]
+position = Vector2(632, 506)

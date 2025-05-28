@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://6iqstuxmh2bf"]
+
+[node name="Level1" type="Node2D"]
+metadata/_custom_type_script = "uid://c2ppv7clbyw3i"

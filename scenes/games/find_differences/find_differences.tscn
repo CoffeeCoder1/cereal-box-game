@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://te5jux8nwc5"]
+
+[ext_resource type="Script" uid="uid://bv8lf30ihep2t" path="res://scenes/games/find_differences/difference_area.gd" id="1_oaj4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_txdu8"]
+size = Vector2(79, 119)
+
+[node name="FindDifferences" type="Node2D"]
+
+[node name="Area2D" type="Area2D" parent="." node_paths=PackedStringArray("indicator")]
+script = ExtResource("1_oaj4t")
+indicator = NodePath("Indicator")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(93, 100)
+shape = SubResource("RectangleShape2D_txdu8")
+
+[node name="Indicator" type="Node2D" parent="Area2D"]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Area2D/Indicator"]
+offset_left = 53.0
+offset_top = 40.0
+offset_right = 133.0
+offset_bottom = 160.0
+color = Color(1, 1, 1, 0.305882)
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(479, 180)
+shape = SubResource("RectangleShape2D_txdu8")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D2"]
+offset_left = 451.0
+offset_top = 145.0
+offset_right = 491.0
+offset_bottom = 185.0
+
+[connection signal="input_event" from="Area2D" to="Area2D" method="_on_input_event"]
