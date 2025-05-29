@@ -26,20 +26,24 @@ func _process(delta: float) -> void:
 		for player in player_container.get_children():
 			player = player as MazePlayer
 			if is_instance_valid(player):
-				position_average += player.position.x
+				position_average += player.global_position.x
 		position_average /= player_container.get_child_count()
 		
-		pivot.rotation = (position_average - _spawn_point_average) / 200
+		pivot.rotation = lerp(pivot.rotation, (position_average - _spawn_point_average) / 200, delta * 10)
 		
 		# Find what the floor is (closest wall to being horizontal)
 		floor_rotation = pivot.rotation + PI / 4
 		if floor_rotation < 0:
 			floor_rotation += 2 * PI
 		
-		if (floor_rotation >= 0 and floor_rotation < PI / 2) or (floor_rotation >= (2 * PI) and floor_rotation < (3 * PI / 2)):
+		if (floor_rotation >= 0 and floor_rotation < PI / 2):
 			floor_rotation -= PI / 4
+		elif (floor_rotation >= PI / 2 and floor_rotation < PI):
+			floor_rotation += 5 * PI / 4
+		elif (floor_rotation >= PI and floor_rotation < (3 * PI / 2)):
+			floor_rotation += 3 * PI / 4
 		else:
-			floor_rotation -= 3 * PI / 4
+			floor_rotation += PI / 4
 	
 	floor_rotation_changed.emit(floor_rotation)
 
