@@ -11,14 +11,17 @@ const PLAYER_NAME_FORMAT = "Player{0}"
 ## The node to use to store player nodes.
 @export var player_container: Node
 
-var _peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-
 ## Emitted when a connection to the server is successfully made.
 signal connected_to_server
 ## Emitted when disconnected from the server.
 signal server_disconnected
 ## Emitted when the connection failed.
 signal connection_failed
+## Emitted when every player is ready.
+signal players_ready
+
+var _peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+var _ready_players: Array[Player]
 
 
 func _ready():
@@ -98,6 +101,7 @@ func add_player(id: int) -> void:
 	var player = Player.new()
 	player.name = PLAYER_NAME_FORMAT.format([id])
 	player.set_multiplayer_authority(id)
+	player.state_changed.connect(_on_player_state_changed.bind(player))
 	player_container.add_child(player)
 
 
@@ -120,3 +124,19 @@ func get_players() -> Array[Player]:
 ## Gets a player by ID.
 func get_player(id: int) -> Player:
 	return player_container.get_node(PLAYER_NAME_FORMAT.format([id])) as Player
+
+
+func all_players_ready() -> bool:
+	return len(_ready_players) == player_container.get_child_count()
+
+
+func _on_player_state_changed(state: Player.PlayerState, player: Player) -> void:
+	if state == Player.PlayerState.READY:
+		if not _ready_players.has(player):
+			_ready_players.append(player)
+			
+			if all_players_ready():
+				players_ready.emit()
+	else:
+		if _ready_players.has(player):
+			_ready_players.erase(player)

@@ -44,11 +44,15 @@ func start_game() -> void:
 		_add_player.rpc(player.get_multiplayer_authority(), spawn_point)
 		spawn_points.append(spawn_point.get_origin().x)
 	
-	# Used to offset the rotation so the map starts level
+	# Set up the rotation offset so the map starts level
 	_spawn_point_average = 0
 	for point in spawn_points:
 		_spawn_point_average += point
 	_spawn_point_average /= len(spawn_points)
+	
+	# Wait for the clients to all be ready
+	if not multiplayer_lobby.all_players_ready():
+		await multiplayer_lobby.players_ready
 	
 	_enable_rotation = true
 
@@ -58,8 +62,11 @@ func _add_player(id: int, spawn_point: Transform2D) -> void:
 	var player := multiplayer_lobby.get_player(id)
 	var player_node := PLAYER.instantiate()
 	player.set_character_node(player_node)
+	
 	floor_rotation_changed.connect(player_node.set_floor_rotation)
 	player_container.add_child(player_node)
 	
+	player_node.global_transform = spawn_point
+	
 	if player.is_multiplayer_authority():
-		player_node.global_transform = spawn_point
+		player.set_state(Player.PlayerState.READY)
