@@ -29,10 +29,10 @@ func _process(delta: float) -> void:
 				position_average += player.global_position.x
 		position_average /= player_container.get_child_count()
 		
-		pivot.rotation = lerp(pivot.rotation, (position_average - _spawn_point_average) / 200, delta * 10)
+		pivot.rotation = lerp_angle(pivot.rotation, (position_average - _spawn_point_average) / 200, delta * 10)
 		
 		# Find what the floor is (closest wall to being horizontal)
-		floor_rotation = fposmod(pivot.rotation + PI / 4, 2 * PI)
+		floor_rotation = fposmod(pivot.rotation + PI / 4, TAU)
 		
 		if (floor_rotation >= 0 and floor_rotation < PI / 2):
 			floor_rotation -= PI / 4
