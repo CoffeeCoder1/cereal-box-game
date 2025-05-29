@@ -4,13 +4,14 @@ const PLAYER = preload("res://scenes/games/maze/maze_player/maze_player.tscn")
 
 @export var multiplayer_lobby: MultiplayerLobby
 @export var floor_rotation: float
+@export var maze: MazeLevel
 
 signal floor_rotation_changed(new_rotation: float)
 
-@onready var pivot: Node2D = $Pivot
+@onready var pivot: Node2D = maze.pivot
 @onready var player_container: Node = $Players
-@onready var spawn_point_1: Marker2D = $Pivot/SpawnPoint1
-@onready var spawn_point_2: Marker2D = $Pivot/SpawnPoint2
+@onready var spawn_point_1: Marker2D = maze.spawn_points.get(0)
+@onready var spawn_point_2: Marker2D = maze.spawn_points.get(1)
 
 var _spawn_point_average: float
 ## Enables the rotation effect. Should be disabled until players are set up so

@@ -1,32 +1,18 @@
-[gd_scene load_steps=4 format=4 uid="uid://dwl8etdrwt7ck"]
+[gd_scene load_steps=4 format=3 uid="uid://dwl8etdrwt7ck"]
 
 [ext_resource type="Script" uid="uid://dq1ergyminbf" path="res://scenes/games/maze/3.gd" id="1_anvtl"]
-[ext_resource type="TileSet" uid="uid://d0t7i2xgj4x2n" path="res://assets/maze/maze.tres" id="1_mitr1"]
+[ext_resource type="PackedScene" uid="uid://6iqstuxmh2bf" path="res://scenes/games/maze/levels/level1/level1.tscn" id="2_bhlxq"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhlxq"]
-properties/0/path = NodePath("Pivot:rotation")
+properties/0/path = NodePath(".:floor_rotation")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:floor_rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
 
-[node name="Maze" type="Node2D"]
+[node name="Maze" type="Node2D" node_paths=PackedStringArray("maze")]
 script = ExtResource("1_anvtl")
+maze = NodePath("Level1")
 
-[node name="Pivot" type="Node2D" parent="."]
-position = Vector2(960, 540)
-
-[node name="SpawnPoint1" type="Marker2D" parent="Pivot"]
-position = Vector2(-301, -240)
-
-[node name="SpawnPoint2" type="Marker2D" parent="Pivot"]
-position = Vector2(337, 209)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="Pivot"]
-scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAD9/wMAAQACAAEAAGD+/wMAAQACAAEAAGD//wMAAQACAAEAAGAAAAMAAQACAAEAAGABAAMAAQACAAEAAGACAPz/AQACAAEAAGABAPz/AQACAAEAAGAAAPz/AQACAAEAAGD///z/AQACAAEAAGD+//z/AQACAAEAAGD9//z/AQACAAEAAGD8//z/AQACAAEAAGD8/wMAAQAAAAAAAFD7//3/AQACAAEAAAD7//7/AQACAAEAAAD7////AQACAAEAAAD7/wAAAQACAAEAAAD7/wEAAQACAAEAAAD7/wIAAQACAAEAAAD7/wMAAQAAAAIAAAD7//z/AQAAAAIAAFAEAPz/AQAAAAIAADADAPz/AQAAAAAAAFAEAP3/AQAAAAAAAAAEAP7/AQAAAAAAAAAEAP//AQAAAAAAAAAEAAAAAQAAAAAAAAD8//3/AQAAAAEAADD9//7/AQAAAAAAAAABAAIAAQAAAAIAAAABAP//AQAAAAIAADAAAP//AQAAAAAAAFD/////AQAAAAAAAFD+////AQAAAAAAAFD9//3/AQAAAAIAADD9////AQAAAAIAAAABAAEAAQAAAAIAADACAAIAAQAAAAIAAGADAAEAAQAAAAIAADACAAEAAQAAAAIAAFAAAAAAAQAAAAAAAFABAAAAAQABAAAAAGAAAAEAAQAAAAAAAFACAAAAAQAAAAIAAGAAAAIAAQAAAAEAAAD8//7/AQAAAAEAAGD8/wAAAQACAAEAAAD8/wEAAQABAAAAAAD8/wIAAQAAAAEAAFD//wAAAQABAAAAAFD+/wAAAQABAAAAAFD9/wAAAQAAAAEAADD//wEAAQABAAAAAAD//wIAAQAAAAIAAAD+/wIAAQAAAAIAAGD9/wEAAQABAAAAAFD+/wEAAQABAAAAADD9/wIAAQAAAAIAAAD8////AQACAAEAAAACAP//AQACAAEAAAADAP//AQACAAEAAAACAP7/AQACAAAAAAADAAAAAQAAAAEAAFD+//3/AQAAAAIAAFD+//7/AQAAAAIAAAD///7/AQAAAAAAAFAEAAMAAQAAAAIAAGADAAMAAQACAAEAAFACAAMAAQACAAEAAFADAAIAAQAAAAEAAFAEAAEAAQAAAAAAAAAEAAIAAQAAAAAAAAABAP7/AQABAAAAAGABAP3/AQAAAAIAADD///3/AQABAAEAAAAAAP3/AQAAAAAAAFAAAP7/AQACAAEAAFADAP7/AQABAAAAADADAP3/AQAAAAIAADACAP3/AQAAAAIAAFA=")
-tile_set = ExtResource("1_mitr1")
+[node name="Level1" parent="." instance=ExtResource("2_bhlxq")]
 
 [node name="Players" type="Node" parent="."]
 
