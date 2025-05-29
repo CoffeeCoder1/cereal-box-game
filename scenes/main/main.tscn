@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://xqy0we8wikky"]
+[gd_scene load_steps=8 format=3 uid="uid://xqy0we8wikky"]
 
 [ext_resource type="Script" uid="uid://bxsif6vw5j0ph" path="res://scenes/main/main.gd" id="1_iuonh"]
 [ext_resource type="Script" uid="uid://d4aosn22lkjp4" path="res://scenes/multiplayer/multiplayer_lobby.gd" id="2_iuonh"]
 [ext_resource type="PackedScene" uid="uid://drcry2o67hgrq" path="res://scenes/menu/menu.tscn" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://bq1mcf2rug0oy" path="res://scenes/main/game.gd" id="4_l3cfh"]
 [ext_resource type="Texture2D" uid="uid://dbex5haeuat3j" path="res://assets/Menu Sprites/1.png" id="5_hujxm"]
+[ext_resource type="Texture2D" uid="uid://gn3smc1vmgho" path="res://assets/Menu Sprites/NutritionLabel(1)(1).png" id="5_yyfjg"]
 [ext_resource type="Texture2D" uid="uid://bffirqpoeqj3v" path="res://assets/Menu Sprites/Radi-o_s_2_-removebg-preview.png" id="6_ouso4"]
 
 [node name="Main" type="Node"]
@@ -26,14 +27,29 @@ color = Color(0.494118, 0.85098, 0.341176, 1)
 [node name="Sprite Folder" type="Node" parent="."]
 
 [node name="Logo" type="Sprite2D" parent="Sprite Folder"]
-position = Vector2(478, 317)
-scale = Vector2(2, 2)
+position = Vector2(402.5, 269.5)
+scale = Vector2(1.89501, 1.75581)
 texture = ExtResource("6_ouso4")
 
-[node name="Cereal Box" type="Sprite2D" parent="Sprite Folder"]
-position = Vector2(1536, 530)
+[node name="Outline" type="ColorRect" parent="Sprite Folder"]
+anchors_preset = -1
+anchor_right = 0.059
+anchor_bottom = 0.05
+offset_left = 1244.0
+offset_top = 31.0
+offset_right = 1697.72
+offset_bottom = 974.0
+color = Color(0, 0, 0, 1)
+
+[node name="Cereal Box" type="Sprite2D" parent="Sprite Folder/Outline"]
+position = Vector2(283, 499)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hujxm")
+
+[node name="Nutrition Facts" type="Sprite2D" parent="Sprite Folder"]
+position = Vector2(145.875, 920.125)
+scale = Vector2(0.309709, 0.246493)
+texture = ExtResource("5_yyfjg")
 
 [node name="Game" type="Node" parent="." node_paths=PackedStringArray("multiplayer_lobby")]
 script = ExtResource("4_l3cfh")
