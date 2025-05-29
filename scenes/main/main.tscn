@@ -27,7 +27,7 @@ color = Color(0.494118, 0.85098, 0.341176, 1)
 [node name="Sprite Folder" type="Node" parent="."]
 
 [node name="Logo" type="Sprite2D" parent="Sprite Folder"]
-position = Vector2(182, 88)
+position = Vector2(184, 97)
 scale = Vector2(0.820754, 0.760465)
 texture = ExtResource("6_ouso4")
 
