@@ -27,18 +27,19 @@ color = Color(0.494118, 0.85098, 0.341176, 1)
 [node name="Sprite Folder" type="Node" parent="."]
 
 [node name="Logo" type="Sprite2D" parent="Sprite Folder"]
-position = Vector2(402.5, 269.5)
-scale = Vector2(1.89501, 1.75581)
+position = Vector2(182, 88)
+scale = Vector2(0.820754, 0.760465)
 texture = ExtResource("6_ouso4")
 
 [node name="Outline" type="ColorRect" parent="Sprite Folder"]
 anchors_preset = -1
 anchor_right = 0.059
 anchor_bottom = 0.05
-offset_left = 1244.0
-offset_top = 31.0
-offset_right = 1697.72
-offset_bottom = 974.0
+offset_left = 1562.0
+offset_top = 23.0
+offset_right = 2015.72
+offset_bottom = 966.0
+scale = Vector2(0.596899, 0.596899)
 color = Color(0, 0, 0, 1)
 
 [node name="Cereal Box" type="Sprite2D" parent="Sprite Folder/Outline"]
