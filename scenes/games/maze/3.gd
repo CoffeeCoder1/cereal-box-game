@@ -32,9 +32,7 @@ func _process(delta: float) -> void:
 		pivot.rotation = lerp(pivot.rotation, (position_average - _spawn_point_average) / 200, delta * 10)
 		
 		# Find what the floor is (closest wall to being horizontal)
-		floor_rotation = pivot.rotation + PI / 4
-		if floor_rotation < 0:
-			floor_rotation += 2 * PI
+		floor_rotation = fposmod(pivot.rotation + PI / 4, 2 * PI)
 		
 		if (floor_rotation >= 0 and floor_rotation < PI / 2):
 			floor_rotation -= PI / 4
