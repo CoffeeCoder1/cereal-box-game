@@ -4,28 +4,31 @@ const PLAYER = preload("res://scenes/games/maze/maze_player/maze_player.tscn")
 
 @onready var pivot: Node2D = $Pivot
 @onready var player_container: Node = $Players
-@onready var spawn_point_1: Marker2D = $SpawnPoint1
-@onready var spawn_point_2: Marker2D = $SpawnPoint2
+@onready var spawn_point_1: Marker2D = $Pivot/SpawnPoint1
+@onready var spawn_point_2: Marker2D = $Pivot/SpawnPoint2
 
 signal floor_rotation_changed(new_rotation: float)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	var position_average: float
-	for player in player_container.get_children():
-		player = player as MazePlayer
-		if is_instance_valid(player):
-			position_average += player.position.x
-	position_average /= player_container.get_child_count()
+func _process(delta: float) -> void:
+	if is_multiplayer_authority():
+		var position_average: float
+		for player in player_container.get_children():
+			player = player as MazePlayer
+			if is_instance_valid(player):
+				position_average += player.position.x
+		position_average /= player_container.get_child_count()
+		
+		pivot.rotation = position_average / 200 + PI
 	
-	pivot.rotation = position_average / 200 + PI
 	floor_rotation_changed.emit(pivot.rotation)
 
 
 func start_game(players: Array[Player]) -> void:
 	for player in players:
 		var player_node = PLAYER.instantiate()
+		player.set_character_node(player_node)
 		floor_rotation_changed.connect(player_node.set_floor_rotation)
 		player_container.add_child(player_node)
 		

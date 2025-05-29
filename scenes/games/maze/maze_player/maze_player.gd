@@ -8,6 +8,14 @@ var _floor_rotation: float = 0.0
 @onready var jump_cooldown_timer: Timer = $JumpCooldownTimer
 
 
+func _ready() -> void:
+	freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
+
+
+func _process(delta: float) -> void:
+	freeze = not is_multiplayer_authority()
+
+
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return

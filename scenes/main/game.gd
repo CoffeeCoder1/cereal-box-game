@@ -11,6 +11,7 @@ func create_game() -> void:
 	pass
 
 
+@rpc('authority', 'call_local', 'reliable')
 func start_game() -> void:
 	level = MAZE.instantiate()
 	add_child(level)
