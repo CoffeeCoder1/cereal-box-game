@@ -11,7 +11,8 @@ signal floor_rotation_changed(new_rotation: float)
 
 @onready var player_container: Node = $Players
 @onready var game_border: Area2D = $GameBorder
-@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var audio_stream_player_2d: AudioStreamPlayer = $AudioStreamPlayer2D
+@onready var cereal_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var _spawn_point_average: float
 ## Enables the rotation effect. Should be disabled until players are set up so
@@ -100,6 +101,8 @@ func _load_level(level_name: String) -> void:
 		_maze.queue_free()
 	_maze = maze_scenes.get(level_name).instantiate()
 	add_child(_maze)
+	
+	cereal_stream_player.play()
 
 
 @rpc("authority", "call_local", "reliable")

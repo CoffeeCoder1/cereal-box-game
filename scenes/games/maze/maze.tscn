@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwl8etdrwt7ck"]
+[gd_scene load_steps=11 format=3 uid="uid://dwl8etdrwt7ck"]
 
 [ext_resource type="Script" uid="uid://dq1ergyminbf" path="res://scenes/games/maze/3.gd" id="1_anvtl"]
 [ext_resource type="PackedScene" uid="uid://6iqstuxmh2bf" path="res://scenes/games/maze/levels/level1/level1.tscn" id="2_bhlxq"]
 [ext_resource type="PackedScene" uid="uid://d2ba48xhgnkem" path="res://scenes/games/maze/levels/Level 2/level2.tscn" id="3_anvtl"]
 [ext_resource type="AudioStream" uid="uid://uupmm14gffwi" path="res://assets/stone.ogg" id="4_0ccvx"]
+[ext_resource type="AudioStream" uid="uid://r5s47m2krpim" path="res://assets/cereal.ogg" id="5_exn2d"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhlxq"]
 properties/0/path = NodePath(".:floor_rotation")
@@ -54,7 +55,11 @@ shape = SubResource("WorldBoundaryShape2D_0ccvx")
 position = Vector2(1970, 1080)
 shape = SubResource("WorldBoundaryShape2D_exn2d")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_0ccvx")
+volume_db = 7.268
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_exn2d")
 
 [connection signal="body_entered" from="GameBorder" to="." method="_on_game_border_body_entered"]
