@@ -10,6 +10,7 @@ const PLAYER = preload("res://scenes/games/maze/maze_player/maze_player.tscn")
 signal floor_rotation_changed(new_rotation: float)
 
 @onready var player_container: Node = $Players
+@onready var game_border: Area2D = $GameBorder
 
 var _spawn_point_average: float
 ## Enables the rotation effect. Should be disabled until players are set up so
@@ -32,7 +33,7 @@ func _process(delta: float) -> void:
 		maze_rotation = lerp_angle(maze_rotation, (position_average - _spawn_point_average) / 200, delta * 10)
 		
 		# Find what the floor is (closest wall to being horizontal)
-		floor_rotation = fposmod(_maze.pivot.rotation + PI / 4, TAU)
+		floor_rotation = fposmod(maze_rotation + PI / 4, TAU)
 		
 		if (floor_rotation >= 0 and floor_rotation < PI / 2):
 			floor_rotation -= PI / 4
@@ -50,6 +51,11 @@ func _process(delta: float) -> void:
 
 ## Sets up the game on all the clients. Should be called on the server.
 func start_game() -> void:
+	_enable_rotation = false
+	
+	maze_rotation = 0.0
+	floor_rotation = 0.0
+	
 	# Pick a random level and load it
 	var level: String = maze_scenes.keys().pick_random()
 	_load_level.rpc(level)
@@ -72,7 +78,14 @@ func start_game() -> void:
 	if not multiplayer_lobby.all_players_ready():
 		await multiplayer_lobby.players_ready
 	
+	game_border.monitoring = true
 	_enable_rotation = true
+
+
+func reload_game() -> void:
+	_unload_level.rpc()
+	
+	call_deferred("start_game")
 
 
 @rpc("authority", "call_local", "reliable")
@@ -96,3 +109,24 @@ func _add_player(id: int, spawn_point: Transform2D) -> void:
 	
 	if player.is_multiplayer_authority():
 		player.set_state(Player.PlayerState.READY)
+
+
+@rpc("authority", "call_local", "reliable")
+func _unload_level() -> void:
+	for player in player_container.get_children():
+		if is_instance_valid(player):
+			player.queue_free()
+	
+	if is_instance_valid(_maze):
+		_maze.queue_free()
+
+
+func _on_game_border_body_entered(body: Node2D) -> void:
+	if not body is MazePlayer:
+		return
+	
+	# Needed to prevent a cycle of restarting the game as the players are killed
+	game_border.monitoring = false
+	
+	if multiplayer.is_server():
+		reload_game()
