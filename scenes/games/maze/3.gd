@@ -115,7 +115,13 @@ func _add_player(id: int, spawn_point: Transform2D) -> void:
 func _unload_level() -> void:
 	for player in player_container.get_children():
 		if is_instance_valid(player):
+			player_container.remove_child(player)
 			player.queue_free()
+	
+	for player in multiplayer_lobby.get_players():
+		if is_instance_valid(player):
+			if player.is_multiplayer_authority():
+				player.set_state(Player.PlayerState.LOADING)
 	
 	if is_instance_valid(_maze):
 		_maze.queue_free()
@@ -126,7 +132,7 @@ func _on_game_border_body_entered(body: Node2D) -> void:
 		return
 	
 	# Needed to prevent a cycle of restarting the game as the players are killed
-	game_border.monitoring = false
+	game_border.set_deferred("monitoring", false)
 	
 	if multiplayer.is_server():
 		reload_game()
