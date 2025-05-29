@@ -28,8 +28,5 @@ shape = SubResource("CircleShape2D_mitr1")
 scale = Vector2(0.125, 0.1)
 texture = ExtResource("2_1boxw")
 
-[node name="JumpCooldownTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rttvw")
