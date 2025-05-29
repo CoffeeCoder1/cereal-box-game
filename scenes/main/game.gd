@@ -11,9 +11,14 @@ func create_game() -> void:
 	pass
 
 
-@rpc('authority', 'call_local', 'reliable')
 func start_game() -> void:
+	_setup_level.rpc()
+	# TODO: Handle players joining after game start
+	level.start_game()
+
+
+@rpc('authority', 'call_local', 'reliable')
+func _setup_level() -> void:
 	level = MAZE.instantiate()
 	add_child(level)
-	# TODO: Handle players joining after game start
-	level.start_game(multiplayer_lobby.get_players())
+	level.multiplayer_lobby = multiplayer_lobby

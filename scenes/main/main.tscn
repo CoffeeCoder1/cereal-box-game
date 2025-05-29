@@ -8,8 +8,9 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_iuonh")
 
-[node name="MultiplayerLobby" type="Node" parent="."]
+[node name="MultiplayerLobby" type="Node" parent="." node_paths=PackedStringArray("player_container")]
 script = ExtResource("2_iuonh")
+player_container = NodePath("../Players")
 metadata/_custom_type_script = "uid://d4aosn22lkjp4"
 
 [node name="Menu" parent="." instance=ExtResource("3_k2fmo")]

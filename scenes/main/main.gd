@@ -9,7 +9,7 @@ func _on_menu_create_server() -> void:
 	multiplayer_lobby.create_game()
 	menu.hide()
 	await multiplayer.peer_connected
-	game.start_game.rpc()
+	game.start_game()
 
 
 func _on_menu_join_server(ip: String) -> void:

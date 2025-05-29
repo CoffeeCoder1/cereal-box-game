@@ -1,11 +1,15 @@
 class_name MultiplayerLobby extends Node
 
+const PLAYER_NAME_FORMAT = "Player{0}"
+
 ## The default server IP to connect to.
 @export var default_server_ip: String = "127.0.0.1"
 ## The port to bind the TCP server to.
 @export var port: int = 7000
 ## The maximum number of clients that can connect to the server.
 @export var max_connections: int = 20
+## The node to use to store player nodes.
+@export var player_container: Node
 
 var _peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
@@ -15,8 +19,6 @@ signal connected_to_server
 signal server_disconnected
 ## Emitted when the connection failed.
 signal connection_failed
-
-@onready var players: Node = $"../Players"
 
 
 func _ready():
@@ -67,7 +69,8 @@ func _on_connected_fail():
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	server_disconnected.emit()
-	
+
+
 func _on_peer_connected(id: int) -> void:
 	if multiplayer.is_server():
 		add_player(id)
@@ -93,21 +96,27 @@ func _on_peer_disconnected(id: int) -> void:
 @rpc("any_peer")
 func add_player(id: int) -> void:
 	var player = Player.new()
-	player.name = "Player" + str(id)
+	player.name = PLAYER_NAME_FORMAT.format([id])
 	player.set_multiplayer_authority(id)
-	players.add_child(player)
+	player_container.add_child(player)
 
 
 @rpc("any_peer")
 func remove_player(id: int) -> void:
-	var player := players.get_node_or_null("Player" + str(id))
+	var player := player_container.get_node_or_null(PLAYER_NAME_FORMAT.format([id]))
 	
 	if is_instance_valid(player):
 		player.queue_free()
 
 
+## Gets all the players.
 func get_players() -> Array[Player]:
 	var player_array: Array[Player]
-	for player in players.get_children():
+	for player in player_container.get_children():
 		player_array.append(player as Player)
 	return player_array
+
+
+## Gets a player by ID.
+func get_player(id: int) -> Player:
+	return player_container.get_node(PLAYER_NAME_FORMAT.format([id])) as Player

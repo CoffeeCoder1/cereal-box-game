@@ -16,3 +16,7 @@ func set_character_node(character_node: Node) -> void:
 	_character_node = character_node
 	character_node.name = "Player" + str(get_multiplayer_authority())
 	character_node.set_multiplayer_authority(get_multiplayer_authority())
+
+
+func get_character_node() -> Node:
+	return _character_node
