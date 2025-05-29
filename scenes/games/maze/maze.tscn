@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwl8etdrwt7ck"]
+[gd_scene load_steps=9 format=3 uid="uid://dwl8etdrwt7ck"]
 
 [ext_resource type="Script" uid="uid://dq1ergyminbf" path="res://scenes/games/maze/3.gd" id="1_anvtl"]
 [ext_resource type="PackedScene" uid="uid://6iqstuxmh2bf" path="res://scenes/games/maze/levels/level1/level1.tscn" id="2_bhlxq"]
+[ext_resource type="PackedScene" uid="uid://d2ba48xhgnkem" path="res://scenes/games/maze/levels/Level 2/level2.tscn" id="3_anvtl"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhlxq"]
 properties/0/path = NodePath(".:floor_rotation")
@@ -25,7 +26,8 @@ normal = Vector2(-1, 0)
 [node name="Maze" type="Node2D"]
 script = ExtResource("1_anvtl")
 maze_scenes = Dictionary[String, PackedScene]({
-"level1": ExtResource("2_bhlxq")
+"level1": ExtResource("2_bhlxq"),
+"level2": ExtResource("3_anvtl")
 })
 
 [node name="Players" type="Node" parent="."]
