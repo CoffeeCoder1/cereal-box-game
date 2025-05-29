@@ -15,41 +15,90 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_klgdb")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
+[node name="MainMenu" type="Window" parent="."]
+auto_translate_mode = 1
+initial_position = 2
+size = Vector2i(473, 356)
+wrap_controls = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MainMenu"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 150
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+[node name="Label" type="Label" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Radio-s MAZE GAME"
+label_settings = SubResource("LabelSettings_klgdb")
+horizontal_alignment = 1
+
+[node name="CreateServerButton" type="Button" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Create Server"
+
+[node name="JoinServerButton" type="Button" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Join Server"
+
+[node name="JoinServerMenu" type="Window" parent="."]
+auto_translate_mode = 1
+title = "Join Server"
+initial_position = 2
+size = Vector2i(473, 426)
+visible = false
+wrap_controls = true
+
+[node name="PanelContainer" type="PanelContainer" parent="JoinServerMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="JoinServerMenu/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="JoinServerMenu/PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/margin_bottom = 150
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="JoinServerMenu/PanelContainer/MarginContainer/MarginContainer"]
 layout_mode = 2
-text = "Radio-s MAZE GAME"
-label_settings = SubResource("LabelSettings_klgdb")
+columns = 2
 
-[node name="CreateServerButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="IPAddressLabel" type="Label" parent="JoinServerMenu/PanelContainer/MarginContainer/MarginContainer/GridContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Create Server"
+text = "IP Address"
 
-[node name="JoinServerButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="IPAddressJoinEdit" type="LineEdit" parent="JoinServerMenu/PanelContainer/MarginContainer/MarginContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "127.0.0.1"
+
+[node name="JoinServerButton" type="Button" parent="JoinServerMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 40
 text = "Join Server"
 
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/JoinServerButton" to="." method="_on_join_server_button_pressed"]
+[connection signal="pressed" from="MainMenu/PanelContainer/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
+[connection signal="pressed" from="MainMenu/PanelContainer/MarginContainer/VBoxContainer/JoinServerButton" to="." method="_on_join_server_button_pressed"]
+[connection signal="pressed" from="JoinServerMenu/PanelContainer/MarginContainer/JoinServerButton" to="." method="_on_join_server_window_join_button_pressed"]
