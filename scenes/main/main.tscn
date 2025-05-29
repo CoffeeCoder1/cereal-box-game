@@ -35,11 +35,11 @@ position = Vector2(1536, 530)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hujxm")
 
-[node name="Menu" parent="." instance=ExtResource("3_k2fmo")]
-
 [node name="Game" type="Node" parent="." node_paths=PackedStringArray("multiplayer_lobby")]
 script = ExtResource("4_l3cfh")
 multiplayer_lobby = NodePath("../MultiplayerLobby")
+
+[node name="Menu" parent="." instance=ExtResource("3_k2fmo")]
 
 [node name="Players" type="Node" parent="."]
 
