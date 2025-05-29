@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://xqy0we8wikky"]
+[gd_scene load_steps=7 format=3 uid="uid://xqy0we8wikky"]
 
 [ext_resource type="Script" uid="uid://bxsif6vw5j0ph" path="res://scenes/main/main.gd" id="1_iuonh"]
-[ext_resource type="Texture2D" uid="uid://cmg1jmhxscb0y" path="res://assets/Menu Sprites/Radi-o's(4).png" id="2_6q06x"]
 [ext_resource type="Script" uid="uid://d4aosn22lkjp4" path="res://scenes/multiplayer/multiplayer_lobby.gd" id="2_iuonh"]
 [ext_resource type="PackedScene" uid="uid://drcry2o67hgrq" path="res://scenes/menu/menu.tscn" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://bq1mcf2rug0oy" path="res://scenes/main/game.gd" id="4_l3cfh"]
@@ -11,15 +10,18 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_iuonh")
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(965, 540)
-scale = Vector2(2.05, 1.5)
-texture = ExtResource("2_6q06x")
-
 [node name="MultiplayerLobby" type="Node" parent="." node_paths=PackedStringArray("player_container")]
 script = ExtResource("2_iuonh")
 player_container = NodePath("../Players")
 metadata/_custom_type_script = "uid://d4aosn22lkjp4"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.494118, 0.85098, 0.341176, 1)
 
 [node name="Sprite Folder" type="Node" parent="."]
 
