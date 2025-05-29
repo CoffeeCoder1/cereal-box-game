@@ -11,12 +11,14 @@ signal floor_rotation_changed(new_rotation: float)
 
 @onready var player_container: Node = $Players
 @onready var game_border: Area2D = $GameBorder
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var _spawn_point_average: float
 ## Enables the rotation effect. Should be disabled until players are set up so
 ## the level doesn't rotate erratically.
 var _enable_rotation: bool = false
 var _maze: MazeLevel
+var _last_sound_rotation: float = 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,6 +49,10 @@ func _process(delta: float) -> void:
 	if is_instance_valid(_maze):
 		_maze.pivot.rotation = maze_rotation
 	floor_rotation_changed.emit(floor_rotation)
+	
+	if abs(_last_sound_rotation - floor_rotation) > 0.2:
+		audio_stream_player_2d.play(3.0)
+		_last_sound_rotation = floor_rotation
 
 
 ## Sets up the game on all the clients. Should be called on the server.
