@@ -13,6 +13,7 @@ script = ExtResource("1_iuonh")
 
 [node name="MultiplayerLobby" type="Node" parent="." node_paths=PackedStringArray("player_container")]
 script = ExtResource("2_iuonh")
+default_server_ip = "10.30.1.130"
 player_container = NodePath("../Players")
 metadata/_custom_type_script = "uid://d4aosn22lkjp4"
 
