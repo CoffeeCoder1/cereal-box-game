@@ -3,6 +3,7 @@ extends Node2D
 const PLAYER = preload("res://scenes/games/maze/maze_player/maze_player.tscn")
 
 @export var multiplayer_lobby: MultiplayerLobby
+@export var floor_rotation: float
 
 signal floor_rotation_changed(new_rotation: float)
 
@@ -20,6 +21,7 @@ var _enable_rotation: bool = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if is_multiplayer_authority() and _enable_rotation:
+		# Figure out how much to rotate the level
 		var position_average: float
 		for player in player_container.get_children():
 			player = player as MazePlayer
@@ -29,9 +31,17 @@ func _process(delta: float) -> void:
 		
 		pivot.rotation = (position_average - _spawn_point_average) / 200
 		
-		print(pivot.rotation)
+		# Find what the floor is (closest wall to being horizontal)
+		floor_rotation = pivot.rotation + PI / 4
+		if floor_rotation < 0:
+			floor_rotation += 2 * PI
+		
+		if (floor_rotation >= 0 and floor_rotation < PI / 2) or (floor_rotation >= (2 * PI) and floor_rotation < (3 * PI / 2)):
+			floor_rotation -= PI / 4
+		else:
+			floor_rotation -= 3 * PI / 4
 	
-	floor_rotation_changed.emit(pivot.rotation)
+	floor_rotation_changed.emit(floor_rotation)
 
 
 ## Sets up the game on all the clients. Should be called on the server.
